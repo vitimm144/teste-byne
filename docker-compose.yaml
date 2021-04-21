@@ -1,0 +1,12 @@
+version: '3'
+services:
+    even-service:
+        extends: 
+            file: ./even-generator/docker-compose.yaml
+            service: even
+    
+    odd-service:
+        extends: 
+            file: ./odd-generator/docker-compose.yaml
+            service: odd
+    
