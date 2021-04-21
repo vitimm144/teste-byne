@@ -1,0 +1,12 @@
+version: '3'
+services:
+    odd:
+        container_name: odd-service
+        restart: unless-stopped
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 5001:5001
+        volumes: 
+            - .:/app_odd:delegated
