@@ -1,0 +1,4 @@
+import:
+  - even-generator/.travis.yml
+  - odd-generator/.travis.yml
+  - multiply-publiser/.travis.yml
