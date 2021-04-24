@@ -1,12 +1,10 @@
 version: "3"
 services:
-    even:
-        container_name: even-service
+    multiply:
+        container_name: multiply-service
         restart: unless-stopped
         build: 
             context: .
             dockerfile: Dockerfile
-        ports:
-            - 5000:5000
         volumes: 
-            - .:/app_even:delegated
+            - .:/app_multiply:delegated

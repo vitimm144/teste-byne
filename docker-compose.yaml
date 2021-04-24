@@ -19,3 +19,9 @@ services:
         ports:
             - "15672:15672"
             - "5672:5672"
+    multiply-service:
+        depends_on: 
+            - "rabbit"
+        extends: 
+            file: ./multiply-publisher/docker-compose.yaml
+            service: multiply
