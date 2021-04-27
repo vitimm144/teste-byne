@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock, patch, MagicMock
-from multiply import Multiply
+from multiply import Multiply, INumberDTO
 
 
 class TestMultiply(unittest.TestCase):
@@ -8,14 +8,14 @@ class TestMultiply(unittest.TestCase):
     def test_multiply(self):
         with patch('multiply.MultiplyService') as mock:
             multiply_service = mock.return_value
-            multiply_service.get_service_number.return_value = {"number": 2}
+            multiply_service.get_service_number.return_value = INumberDTO(2, 2342234234)
             multiply = Multiply("/even", "/odd", multiply_service)
-            self.assertEquals(multiply.multiply(), 4)
+            self.assertEqual(multiply.multiply(), 4)
 
     def test_if_publish_number(self):
         with patch('multiply.MultiplyService') as mock:
             multiply_service = mock.return_value
-            multiply_service.get_service_number.return_value = {"number": 200}
+            multiply_service.get_service_number.return_value = INumberDTO(200, 2342234234)
             multiply_service.publish = MagicMock(name="publish")
             multiply = Multiply("/even", "/odd", multiply_service)
             multiply.publisher()
@@ -24,7 +24,7 @@ class TestMultiply(unittest.TestCase):
     def test_if_not_publish_number(self):
         with patch('multiply.MultiplyService') as mock:
             multiply_service = mock.return_value
-            multiply_service.get_service_number.return_value = {"number": 2}
+            multiply_service.get_service_number.return_value = INumberDTO(2, 2342234234)
             multiply_service.publish = MagicMock(name="publish")
             multiply = Multiply("/even", "/odd", multiply_service)
             multiply.publisher()
