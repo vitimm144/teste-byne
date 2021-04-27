@@ -11,19 +11,13 @@
                             "name": "anonymous",
                             "permissions": [
                                 {
-                                    "uri": "com.",
-                                    "match": "prefix",
+                                    "uri": "*",
                                     "allow": {
                                         "call": true,
                                         "register": true,
                                         "publish": true,
                                         "subscribe": true
-                                    },
-                                    "disclose": {
-                                        "caller": false,
-                                        "publisher": false
-                                    },
-                                    "cache": true
+                                    }
                                 }
                             ]
                         }
@@ -32,26 +26,40 @@
             ],
             "transports": [
                 {
+                    "type": "websocket",
+                    "endpoint": {
+                      "type": "tcp",
+                      "port": 8000
+                    }
+                },
+                {
                     "type": "web",
                     "endpoint": {
-                        "type": "tcp",
-                        "port": 8000
+                      "type": "tcp",
+                      "port": 8001
                     },
                     "paths": {
-                        "call": {
-                            "type": "caller",
-                            "realm": "realm1",
-                            "role": "anonymous"
-                        },
-                        "/": {
-                            "type": "static",
-                            "directory": "../web"
-                        },
-                        "ws": {
-                            "type": "websocket"
-                        }
+                      "call": {
+                        "type": "caller",
+                        "realm": "realm1",
+                        "role": "anonymous"
+                      }
                     }
-                }
+                  },
+                  {
+                    "type": "web",
+                    "endpoint": {
+                      "type": "tcp",
+                      "port": 8002
+                    },
+                    "paths": {
+                      "/": {
+                        "type": "publisher",
+                        "realm": "realm1",
+                        "role": "anonymous"
+                      }
+                    }
+                  }
             ]
         },
         {

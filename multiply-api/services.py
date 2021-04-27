@@ -1,7 +1,10 @@
+from pika.adapters.twisted_connection import TwistedProtocolConnection
 import pika
 import json
 from models import Number
 from datetime import datetime
+import json
+
 
 
 class NumberService():
@@ -15,7 +18,10 @@ class NumberService():
 
     @staticmethod
     def get():
-        data = Number.objects().order_by('-timestamp')[:100]
+        data = []
+        queryset = Number.objects().order_by('-timestamp')[:100]
+        if queryset:
+            data = json.loads(queryset.to_json())
         return data
 
 class ApiService():
@@ -33,9 +39,6 @@ class ApiService():
         self.channel.start_consuming()
 
     def on_message(self, chan, method_frame, header, body):
-        print("on_message")
-        print(chan)
-        print(body)
         data = json.loads(body)
         self.number_service.save(data) 
         chan.basic_ack(delivery_tag=method_frame.delivery_tag)

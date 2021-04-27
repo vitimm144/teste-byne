@@ -11,6 +11,8 @@ ENV PYTHONUNBUFFERED 1
 
 EXPOSE 80
 EXPOSE 8000
+EXPOSE 8001
+EXPOSE 8002
 
 # install dependencies
 RUN pip install --upgrade pip
