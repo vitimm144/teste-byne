@@ -50,3 +50,9 @@ services:
         extends: 
             file: ./multiply-api/docker-compose.yaml
             service: multiply-api
+    client-vue:
+        depends_on: 
+            - "multiply-api"
+        extends: 
+            file: ./client/docker-compose.yaml
+            service: client-vue

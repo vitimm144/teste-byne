@@ -1,0 +1,12 @@
+version: "3"
+services:
+    client-vue:
+        container_name: client-vue
+        restart: unless-stopped
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 8080:8080
+        volumes: 
+            - .:/app:delegated
