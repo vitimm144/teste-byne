@@ -1,26 +1,16 @@
-from datetime import datetime
-from mongoengine import connect
-from autobahn.wamp.types import ComponentConfig
-import json
 from twisted.internet.defer import inlineCallbacks
-from services import NumberService, ApiService
-from autobahn.twisted.component import run
+from services import NumberServiceMongo, ApiServiceRabbitMQ
 from autobahn.twisted.wamp import ApplicationSession, ApplicationRunner
-from autobahn import wamp
 from autobahn.twisted.util import sleep
 from twisted.internet import reactor
 
 
 
-connect(host= "mongodb://mongo_admin:mongo_passwd@mongo:27017/byne?authSource=admin")
-
-
 class MultiplySession(ApplicationSession):
-    numberService = None
-
+    
     def __init__(self, config):
         ApplicationSession.__init__(self, config=config)
-        self.numberService = NumberService()
+        self.repository = NumberServiceMongo()
     
     def onConnect(self):
         print('transport connected')
@@ -37,11 +27,10 @@ class MultiplySession(ApplicationSession):
             yield self.register(self.api_ping, 'api.ping')
         except Exception as e:
             print(e)
-        reactor.callInThread(self.connect_rabbit)
-        
+        reactor.callInThread(self.connect_api)
 
     def get_numbers(self):
-        result = self.numberService.get()
+        result = self.repository.get()
         print('api.get_numbers')
         print(result)
         return result
@@ -51,22 +40,20 @@ class MultiplySession(ApplicationSession):
         return {
             "data": "pong"
         }
-
     
-    def connect_rabbit(self):
+    def connect_api(self):
         try:
-            api_service = ApiService("rabbit", "multiply_queue", self.numberService)
+            api_service = ApiServiceRabbitMQ("rabbit", "multiply_queue", self.repository)
             api_service.run()
         except Exception as e:
             print(e)
             sleep(5)
-            self.connect_rabbit()
+            self.connect_api()
 
 
 if __name__ == "__main__":
     url =  u"ws://127.0.0.1:8000/ws"
     realm = u"realm1"
-    # session = MultiplySession(ComponentConfig(realm, {}))
     runner = ApplicationRunner(url=url, realm=realm)
     runner.run(MultiplySession, start_reactor=True)
     
