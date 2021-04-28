@@ -65,5 +65,5 @@ class Multiply(object):
 
     def publisher(self):
         number = self.multiply()
-        if number > 10000:
+        if number > 100000:
             self.multiply_service.publish(number)
