@@ -1,3 +1,4 @@
+[![CI](https://github.com/vitimm144/teste-byne/actions/workflows/main.yml/badge.svg)](https://github.com/vitimm144/teste-byne/actions/workflows/main.yml)
 [![Build Status](https://travis-ci.org/vitimm144/teste-byne.svg?branch=main)](https://travis-ci.org/vitimm144/teste-byne)
 # teste-byne
 Teste com microserviços em python
