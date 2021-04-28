@@ -19,12 +19,6 @@
         </tr>
       </tbody>
     </table>
-    <div>
-
-        <span v-if="$root.wampIsOpen">Status: Connected</span>
-        <span v-else-if="$root.wampIsRetrying">Retrying...</span>
-        <span v-else>Status: Disconnected</span>    
-    </div>
 
   </div>
 </template>
@@ -56,9 +50,6 @@ export default {
     this.$on('$wamp.opened', ({status}) => {
       console.log('opened', status)
     });
-    // this.$on('$wamp.closed', ({status, lastStatus, details}) => {});
-    // this.$on('$wamp.retrying', ({status, lastStatus, details}) => {});
-    // this.$on('$wamp.reconnected', ({status, lastStatus, details}) => {});
   },
 
 }
